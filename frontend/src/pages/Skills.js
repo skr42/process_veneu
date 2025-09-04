@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ use centralized API
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
@@ -21,7 +21,7 @@ const Skills = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await axios.get('/skills');
+      const response = await api.get('/skills'); // ✅ api instead of axios
       setSkills(response.data.skills);
     } catch (error) {
       console.error('Error fetching skills:', error);
@@ -43,13 +43,13 @@ const Skills = () => {
 
     try {
       if (editingSkill) {
-        const response = await axios.put(`/skills/${editingSkill._id}`, formData);
-        setSkills(skills.map(skill => 
+        const response = await api.put(`/skills/${editingSkill._id}`, formData); // ✅ api
+        setSkills(skills.map(skill =>
           skill._id === editingSkill._id ? response.data.skill : skill
         ));
         setMessage('Skill updated successfully!');
       } else {
-        const response = await axios.post('/skills', formData);
+        const response = await api.post('/skills', formData); // ✅ api
         setSkills([...skills, response.data.skill]);
         setMessage('Skill added successfully!');
       }
@@ -79,7 +79,7 @@ const Skills = () => {
   const handleDelete = async (skillId) => {
     if (window.confirm('Are you sure you want to delete this skill?')) {
       try {
-        await axios.delete(`/skills/${skillId}`);
+        await api.delete(`/skills/${skillId}`); // ✅ api
         setSkills(skills.filter(skill => skill._id !== skillId));
         setMessage('Skill deleted successfully!');
       } catch (error) {

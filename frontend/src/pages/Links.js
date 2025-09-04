@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Links = () => {
   const [links, setLinks] = useState(null);
@@ -21,13 +21,13 @@ const Links = () => {
 
   const fetchLinks = async () => {
     try {
-      const response = await axios.get('/links');
+      const response = await api.get('/links');
       setLinks(response.data.links);
       setFormData(response.data.links);
       setIsEditing(false);
     } catch (error) {
       if (error.response?.status === 404) {
-        setIsEditing(true);
+        setIsEditing(true); // first time user
       }
       console.error('Error fetching links:', error);
     } finally {
@@ -73,9 +73,9 @@ const Links = () => {
     try {
       let response;
       if (links) {
-        response = await axios.put(`/links/${links._id}`, formData);
+        response = await api.put(`/links/${links._id}`, formData);
       } else {
-        response = await axios.post('/links', formData);
+        response = await api.post('/links', formData);
       }
 
       setLinks(response.data.links);
@@ -89,7 +89,7 @@ const Links = () => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete all your links?')) {
       try {
-        await axios.delete(`/links/${links._id}`);
+        await api.delete(`/links/${links._id}`);
         setLinks(null);
         setFormData({
           github: '',
@@ -118,16 +118,10 @@ const Links = () => {
           <h1 className="card-title">Professional Links</h1>
           {links && !isEditing && (
             <div style={{ display: 'flex', gap: '1rem' }}>
-              <button 
-                onClick={() => setIsEditing(true)}
-                className="btn btn-primary"
-              >
+              <button onClick={() => setIsEditing(true)} className="btn btn-primary">
                 Edit Links
               </button>
-              <button 
-                onClick={handleDelete}
-                className="btn btn-danger"
-              >
+              <button onClick={handleDelete} className="btn btn-danger">
                 Delete All
               </button>
             </div>
@@ -142,193 +136,94 @@ const Links = () => {
 
         {isEditing ? (
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-2">
-              <div className="form-group">
-                <label htmlFor="github">GitHub</label>
-                <input
-                  type="url"
-                  id="github"
-                  name="github"
-                  className="form-control"
-                  value={formData.github || ''}
-                  onChange={handleChange}
-                  placeholder="https://github.com/username"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="linkedin">LinkedIn</label>
-                <input
-                  type="url"
-                  id="linkedin"
-                  name="linkedin"
-                  className="form-control"
-                  value={formData.linkedin || ''}
-                  onChange={handleChange}
-                  placeholder="https://linkedin.com/in/username"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="portfolio">Portfolio</label>
-                <input
-                  type="url"
-                  id="portfolio"
-                  name="portfolio"
-                  className="form-control"
-                  value={formData.portfolio || ''}
-                  onChange={handleChange}
-                  placeholder="https://yourportfolio.com"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="twitter">Twitter</label>
-                <input
-                  type="url"
-                  id="twitter"
-                  name="twitter"
-                  className="form-control"
-                  value={formData.twitter || ''}
-                  onChange={handleChange}
-                  placeholder="https://twitter.com/username"
-                />
-              </div>
-
-              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                <label htmlFor="website">Website</label>
-                <input
-                  type="url"
-                  id="website"
-                  name="website"
-                  className="form-control"
-                  value={formData.website || ''}
-                  onChange={handleChange}
-                  placeholder="https://yourwebsite.com"
-                />
-              </div>
+            <div className="form-group">
+              <label>GitHub</label>
+              <input type="url" name="github" className="form-control"
+                value={formData.github} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>LinkedIn</label>
+              <input type="url" name="linkedin" className="form-control"
+                value={formData.linkedin} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>Portfolio</label>
+              <input type="url" name="portfolio" className="form-control"
+                value={formData.portfolio} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>Twitter</label>
+              <input type="url" name="twitter" className="form-control"
+                value={formData.twitter} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>Website</label>
+              <input type="url" name="website" className="form-control"
+                value={formData.website} onChange={handleChange} />
             </div>
 
-            <div style={{ marginTop: '2rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3>Other Links</h3>
-                <button 
-                  type="button" 
-                  onClick={addOtherLink}
-                  className="btn btn-secondary btn-small"
-                >
-                  Add Link
-                </button>
-              </div>
-
-              {formData.other && formData.other.map((link, index) => (
-                <div key={index} className="card" style={{ marginBottom: '1rem' }}>
-                  <div className="grid grid-2">
-                    <div className="form-group">
-                      <label>Label</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={link.label}
-                        onChange={(e) => updateOtherLink(index, 'label', e.target.value)}
-                        placeholder="e.g., Medium Blog"
-                        required
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>URL</label>
-                      <input
-                        type="url"
-                        className="form-control"
-                        value={link.url}
-                        onChange={(e) => updateOtherLink(index, 'url', e.target.value)}
-                        placeholder="https://example.com"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <button 
-                    type="button" 
-                    onClick={() => removeOtherLink(index)}
+            <div style={{ marginTop: '1rem' }}>
+              <h3>Other Links</h3>
+              {formData.other.map((link, index) => (
+                <div key={index} className="grid grid-2" style={{ marginBottom: '0.5rem' }}>
+                  <input
+                    type="text"
+                    placeholder="Label"
+                    className="form-control"
+                    value={link.label}
+                    onChange={(e) => updateOtherLink(index, 'label', e.target.value)}
+                  />
+                  <input
+                    type="url"
+                    placeholder="URL"
+                    className="form-control"
+                    value={link.url}
+                    onChange={(e) => updateOtherLink(index, 'url', e.target.value)}
+                  />
+                  <button
+                    type="button"
                     className="btn btn-danger btn-small"
+                    onClick={() => removeOtherLink(index)}
                   >
                     Remove
                   </button>
                 </div>
               ))}
+              <button type="button" onClick={addOtherLink} className="btn btn-secondary">
+                Add Other Link
+              </button>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
-              <button type="submit" className="btn btn-primary">
-                {links ? 'Update Links' : 'Save Links'}
-              </button>
-              {links && (
-                <button 
-                  type="button" 
-                  onClick={() => {
-                    setIsEditing(false);
-                    setFormData(links);
-                  }}
-                  className="btn btn-secondary"
-                >
-                  Cancel
-                </button>
-              )}
-            </div>
+            <button type="submit" className="btn btn-primary" style={{ marginTop: '1rem' }}>
+              Save Links
+            </button>
           </form>
         ) : (
           <div>
             {links ? (
               <div>
-                <div className="grid grid-2">
+                {links.github && <p><strong>GitHub:</strong> <a href={links.github} target="_blank" rel="noreferrer">{links.github}</a></p>}
+                {links.linkedin && <p><strong>LinkedIn:</strong> <a href={links.linkedin} target="_blank" rel="noreferrer">{links.linkedin}</a></p>}
+                {links.portfolio && <p><strong>Portfolio:</strong> <a href={links.portfolio} target="_blank" rel="noreferrer">{links.portfolio}</a></p>}
+                {links.twitter && <p><strong>Twitter:</strong> <a href={links.twitter} target="_blank" rel="noreferrer">{links.twitter}</a></p>}
+                {links.website && <p><strong>Website:</strong> <a href={links.website} target="_blank" rel="noreferrer">{links.website}</a></p>}
+                {links.other && links.other.length > 0 && (
                   <div>
-                    <h3>Professional Links</h3>
-                    {links.github && (
-                      <p><strong>GitHub:</strong> <a href={links.github} target="_blank" rel="noopener noreferrer">{links.github}</a></p>
-                    )}
-                    {links.linkedin && (
-                      <p><strong>LinkedIn:</strong> <a href={links.linkedin} target="_blank" rel="noopener noreferrer">{links.linkedin}</a></p>
-                    )}
-                    {links.portfolio && (
-                      <p><strong>Portfolio:</strong> <a href={links.portfolio} target="_blank" rel="noopener noreferrer">{links.portfolio}</a></p>
-                    )}
-                    {links.twitter && (
-                      <p><strong>Twitter:</strong> <a href={links.twitter} target="_blank" rel="noopener noreferrer">{links.twitter}</a></p>
-                    )}
-                    {links.website && (
-                      <p><strong>Website:</strong> <a href={links.website} target="_blank" rel="noopener noreferrer">{links.website}</a></p>
-                    )}
-                  </div>
-
-                  <div>
-                    {links.other && links.other.length > 0 && (
-                      <div>
-                        <h3>Other Links</h3>
-                        {links.other.map((link, index) => (
-                          <p key={index}>
-                            <strong>{link.label}:</strong> <a href={link.url} target="_blank" rel="noopener noreferrer">{link.url}</a>
-                          </p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {!links.github && !links.linkedin && !links.portfolio && !links.twitter && !links.website && (!links.other || links.other.length === 0) && (
-                  <div className="alert alert-info">
-                    No links have been added yet. Click "Edit Links" to add your professional links.
+                    <strong>Other Links:</strong>
+                    <ul>
+                      {links.other.map((link, index) => (
+                        <li key={index}>
+                          <a href={link.url} target="_blank" rel="noreferrer">{link.label || link.url}</a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
               </div>
             ) : (
               <div>
                 <p>No links found. Add your professional links to showcase your online presence.</p>
-                <button 
-                  onClick={() => setIsEditing(true)}
-                  className="btn btn-primary"
-                >
+                <button onClick={() => setIsEditing(true)} className="btn btn-primary">
                   Add Links
                 </button>
               </div>

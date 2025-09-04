@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import api from '../utils/api';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -21,10 +21,10 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const [profileRes, skillsRes, projectsRes, workRes] = await Promise.all([
-        axios.get('/profile').catch(() => ({ data: { profile: null } })),
-        axios.get('/skills/top?limit=5').catch(() => ({ data: { skills: [] } })),
-        axios.get('/projects').catch(() => ({ data: { projects: [] } })),
-        axios.get('/work').catch(() => ({ data: { workExperiences: [] } }))
+        api.get('/profile').catch(() => ({ data: { profile: null } })),
+        api.get('/skills/top?limit=5').catch(() => ({ data: { skills: [] } })),
+        api.get('/projects').catch(() => ({ data: { projects: [] } })),
+        api.get('/work').catch(() => ({ data: { workExperiences: [] } }))
       ]);
 
       setData({
@@ -45,7 +45,7 @@ const Dashboard = () => {
     if (!searchQuery.trim()) return;
 
     try {
-      const response = await axios.get(`/search?q=${encodeURIComponent(searchQuery)}`);
+      const response = await api.get(`/search?q=${encodeURIComponent(searchQuery)}`);
       setSearchResults(response.data.results);
     } catch (error) {
       console.error('Search error:', error);

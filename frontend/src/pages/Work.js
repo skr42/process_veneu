@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ centralized API instance with auth
 
 const Work = () => {
   const [workExperiences, setWorkExperiences] = useState([]);
@@ -20,16 +20,20 @@ const Work = () => {
 
   const employmentTypes = ['full-time', 'part-time', 'contract', 'internship', 'freelance'];
 
+  // ✅ Fetch work experiences on mount
   useEffect(() => {
     fetchWorkExperiences();
   }, []);
 
   const fetchWorkExperiences = async () => {
     try {
-      const response = await axios.get('/work');
-      setWorkExperiences(response.data.workExperiences);
+      const response = await api.get('/work');
+      setWorkExperiences(
+        response.data.workExperiences || response.data.work || response.data || []
+      );
     } catch (error) {
       console.error('Error fetching work experiences:', error);
+      setMessage(error.response?.data?.message || 'Error fetching work experiences');
     } finally {
       setLoading(false);
     }
@@ -49,19 +53,26 @@ const Work = () => {
 
     const workData = {
       ...formData,
-      skills: formData.skills.split(',').map(skill => skill.trim()).filter(skill => skill)
+      skills: formData.skills
+        ? formData.skills.split(',').map(skill => skill.trim()).filter(Boolean)
+        : []
     };
 
     try {
       if (editingWork) {
-        const response = await axios.put(`/work/${editingWork._id}`, workData);
-        setWorkExperiences(workExperiences.map(work => 
-          work._id === editingWork._id ? response.data.work : work
+        // ✅ Update existing work
+        const response = await api.put(`/work/${editingWork._id}`, workData);
+        setWorkExperiences(workExperiences.map(work =>
+          work._id === editingWork._id
+            ? (response.data.work || response.data)
+            : work
         ));
         setMessage('Work experience updated successfully!');
       } else {
-        const response = await axios.post('/work', workData);
-        setWorkExperiences([response.data.work, ...workExperiences]);
+        // ✅ Add new work
+        const response = await api.post('/work', workData);
+        const newWork = response.data.work || response.data;
+        setWorkExperiences([newWork, ...workExperiences]);
         setMessage('Work experience added successfully!');
       }
 
@@ -96,7 +107,7 @@ const Work = () => {
       endDate: work.endDate ? new Date(work.endDate).toISOString().split('T')[0] : '',
       current: work.current,
       location: work.location || '',
-      employmentType: work.employmentType,
+      employmentType: work.employmentType || 'full-time',
       skills: work.skills ? work.skills.join(', ') : ''
     });
   };
@@ -104,11 +115,11 @@ const Work = () => {
   const handleDelete = async (workId) => {
     if (window.confirm('Are you sure you want to delete this work experience?')) {
       try {
-        await axios.delete(`/work/${workId}`);
+        await api.delete(`/work/${workId}`);
         setWorkExperiences(workExperiences.filter(work => work._id !== workId));
         setMessage('Work experience deleted successfully!');
       } catch (error) {
-        setMessage('Error deleting work experience');
+        setMessage(error.response?.data?.message || 'Error deleting work experience');
       }
     }
   };
@@ -130,6 +141,7 @@ const Work = () => {
           </div>
         )}
 
+        {/* --- Work Form --- */}
         <form onSubmit={handleSubmit}>
           <div className="grid grid-2">
             <div className="form-group">
@@ -266,6 +278,7 @@ const Work = () => {
         </form>
       </div>
 
+      {/* --- Work List --- */}
       <div className="card">
         <div className="card-header">
           <h2 className="card-title">Your Work Experience ({workExperiences.length})</h2>
@@ -283,22 +296,20 @@ const Work = () => {
                     <h4 style={{ color: '#2563eb', marginBottom: '0.5rem' }}>{work.company}</h4>
                     <p style={{ color: '#6b7280', marginBottom: '0.5rem' }}>
                       {work.location && `${work.location} • `}
-                      {work.employmentType.charAt(0).toUpperCase() + work.employmentType.slice(1).replace('-', ' ')}
+                      {work.employmentType?.charAt(0).toUpperCase() + work.employmentType?.slice(1).replace('-', ' ')}
                     </p>
                     <p style={{ color: '#6b7280' }}>
-                      {new Date(work.startDate).toLocaleDateString()} - {
-                        work.current ? 'Present' : new Date(work.endDate).toLocaleDateString()
-                      }
+                      {new Date(work.startDate).toLocaleDateString()} - {work.current ? 'Present' : new Date(work.endDate).toLocaleDateString()}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <button 
+                    <button
                       onClick={() => handleEdit(work)}
                       className="btn btn-secondary btn-small"
                     >
                       Edit
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleDelete(work._id)}
                       className="btn btn-danger btn-small"
                     >

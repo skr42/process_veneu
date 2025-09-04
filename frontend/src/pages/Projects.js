@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -16,26 +16,27 @@ const Projects = () => {
   const [editingProject, setEditingProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
-  const [skillFilter, setSkillFilter] = useState('');
 
   const statuses = ['planning', 'in-progress', 'completed', 'on-hold'];
 
+  // ✅ Fetch projects
   useEffect(() => {
     fetchProjects();
-  }, [skillFilter]);
+  }, []);
 
   const fetchProjects = async () => {
     try {
-      const url = skillFilter ? `/projects?skill=${encodeURIComponent(skillFilter)}` : '/projects';
-      const response = await axios.get(url);
-      setProjects(response.data.projects);
+      const response = await api.get('/projects');
+      setProjects(response.data.projects || response.data || []);
     } catch (error) {
       console.error('Error fetching projects:', error);
+      setMessage(error.response?.data?.message || 'Error fetching projects');
     } finally {
       setLoading(false);
     }
   };
 
+  // ✅ Form input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -44,6 +45,7 @@ const Projects = () => {
     });
   };
 
+  // ✅ Links
   const addLink = () => {
     setFormData({
       ...formData,
@@ -54,48 +56,48 @@ const Projects = () => {
   const updateLink = (index, field, value) => {
     const updatedLinks = [...formData.links];
     updatedLinks[index][field] = value;
-    setFormData({
-      ...formData,
-      links: updatedLinks
-    });
+    setFormData({ ...formData, links: updatedLinks });
   };
 
   const removeLink = (index) => {
-    const updatedLinks = formData.links.filter((_, i) => i !== index);
     setFormData({
       ...formData,
-      links: updatedLinks
+      links: formData.links.filter((_, i) => i !== index)
     });
   };
 
+  // ✅ Add / Update Project
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
 
     const projectData = {
       ...formData,
-      skills: formData.skills.split(',').map(skill => skill.trim()).filter(skill => skill)
+      skills: formData.skills
+        ? formData.skills.split(',').map(skill => skill.trim()).filter(Boolean)
+        : []
     };
 
     try {
       if (editingProject) {
-        const response = await axios.put(`/projects/${editingProject._id}`, projectData);
-        setProjects(projects.map(project => 
-          project._id === editingProject._id ? response.data.project : project
+        const response = await api.put(`/projects/${editingProject._id}`, projectData);
+        setProjects(projects.map(p =>
+          p._id === editingProject._id ? (response.data.project || response.data) : p
         ));
         setMessage('Project updated successfully!');
       } else {
-        const response = await axios.post('/projects', projectData);
-        setProjects([response.data.project, ...projects]);
+        const response = await api.post('/projects', projectData);
+        const newProject = response.data.project || response.data;
+        setProjects([newProject, ...projects]);
         setMessage('Project added successfully!');
       }
-
       resetForm();
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error saving project');
     }
   };
 
+  // ✅ Reset form
   const resetForm = () => {
     setFormData({
       title: '',
@@ -110,28 +112,30 @@ const Projects = () => {
     setEditingProject(null);
   };
 
+  // ✅ Edit
   const handleEdit = (project) => {
     setEditingProject(project);
     setFormData({
       title: project.title,
-      description: project.description,
-      skills: project.skills.join(', '),
-      status: project.status,
+      description: project.description || '',
+      skills: project.skills ? project.skills.join(', ') : '',
+      status: project.status || 'planning',
       startDate: project.startDate ? new Date(project.startDate).toISOString().split('T')[0] : '',
       endDate: project.endDate ? new Date(project.endDate).toISOString().split('T')[0] : '',
-      featured: project.featured,
+      featured: project.featured || false,
       links: project.links || []
     });
   };
 
+  // ✅ Delete
   const handleDelete = async (projectId) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
       try {
-        await axios.delete(`/projects/${projectId}`);
-        setProjects(projects.filter(project => project._id !== projectId));
+        await api.delete(`/projects/${projectId}`);
+        setProjects(projects.filter(p => p._id !== projectId));
         setMessage('Project deleted successfully!');
       } catch (error) {
-        setMessage('Error deleting project');
+        setMessage(error.response?.data?.message || 'Error deleting project');
       }
     }
   };
@@ -142,6 +146,7 @@ const Projects = () => {
 
   return (
     <div>
+      {/* --- Project Form --- */}
       <div className="card">
         <div className="card-header">
           <h1 className="card-title">Projects</h1>
@@ -156,10 +161,9 @@ const Projects = () => {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-2">
             <div className="form-group">
-              <label htmlFor="title">Project Title</label>
+              <label>Title</label>
               <input
                 type="text"
-                id="title"
                 name="title"
                 className="form-control"
                 value={formData.title}
@@ -169,49 +173,66 @@ const Projects = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="status">Status</label>
+              <label>Status</label>
               <select
-                id="status"
                 name="status"
                 className="form-control"
                 value={formData.status}
                 onChange={handleChange}
               >
-                {statuses.map(status => (
-                  <option key={status} value={status}>
-                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                {statuses.map(s => (
+                  <option key={s} value={s}>
+                    {s.charAt(0).toUpperCase() + s.slice(1).replace('-', ' ')}
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-              <label htmlFor="description">Description</label>
+              <label>Description</label>
               <textarea
-                id="description"
                 name="description"
                 className="form-control"
                 value={formData.description}
                 onChange={handleChange}
-                rows="4"
-                required
+                rows="3"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="skills">Skills (comma-separated)</label>
+            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+              <label>Skills (comma-separated)</label>
               <input
                 type="text"
-                id="skills"
                 name="skills"
                 className="form-control"
                 value={formData.skills}
                 onChange={handleChange}
-                placeholder="React, Node.js, MongoDB"
               />
             </div>
 
             <div className="form-group">
+              <label>Start Date</label>
+              <input
+                type="date"
+                name="startDate"
+                className="form-control"
+                value={formData.startDate}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>End Date</label>
+              <input
+                type="date"
+                name="endDate"
+                className="form-control"
+                value={formData.endDate}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
               <label>
                 <input
                   type="checkbox"
@@ -224,91 +245,40 @@ const Projects = () => {
               </label>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="startDate">Start Date</label>
-              <input
-                type="date"
-                id="startDate"
-                name="startDate"
-                className="form-control"
-                value={formData.startDate}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="endDate">End Date</label>
-              <input
-                type="date"
-                id="endDate"
-                name="endDate"
-                className="form-control"
-                value={formData.endDate}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <div style={{ marginTop: '1rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-              <h3>Project Links</h3>
-              <button 
-                type="button" 
-                onClick={addLink}
-                className="btn btn-secondary btn-small"
-              >
-                Add Link
+            {/* Links */}
+            <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+              <label>Project Links</label>
+              {formData.links.map((link, index) => (
+                <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <select
+                    value={link.type}
+                    onChange={(e) => updateLink(index, 'type', e.target.value)}
+                  >
+                    <option value="github">GitHub</option>
+                    <option value="demo">Demo</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Label"
+                    value={link.label}
+                    onChange={(e) => updateLink(index, 'label', e.target.value)}
+                  />
+                  <input
+                    type="url"
+                    placeholder="URL"
+                    value={link.url}
+                    onChange={(e) => updateLink(index, 'url', e.target.value)}
+                  />
+                  <button type="button" onClick={() => removeLink(index)} className="btn btn-danger btn-small">
+                    ✕
+                  </button>
+                </div>
+              ))}
+              <button type="button" onClick={addLink} className="btn btn-secondary btn-small">
+                + Add Link
               </button>
             </div>
-
-            {formData.links.map((link, index) => (
-              <div key={index} className="card" style={{ marginBottom: '1rem' }}>
-                <div className="grid grid-3">
-                  <div className="form-group">
-                    <label>Type</label>
-                    <select
-                      className="form-control"
-                      value={link.type}
-                      onChange={(e) => updateLink(index, 'type', e.target.value)}
-                    >
-                      <option value="github">GitHub</option>
-                      <option value="demo">Demo</option>
-                      <option value="documentation">Documentation</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label>URL</label>
-                    <input
-                      type="url"
-                      className="form-control"
-                      value={link.url}
-                      onChange={(e) => updateLink(index, 'url', e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>Label</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={link.label}
-                      onChange={(e) => updateLink(index, 'label', e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <button 
-                  type="button" 
-                  onClick={() => removeLink(index)}
-                  className="btn btn-danger btn-small"
-                >
-                  Remove Link
-                </button>
-              </div>
-            ))}
           </div>
 
           <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
@@ -324,97 +294,41 @@ const Projects = () => {
         </form>
       </div>
 
-      <div className="card">
+      {/* --- Project List --- */}
+      <div className="card" style={{ marginTop: '2rem' }}>
         <div className="card-header">
           <h2 className="card-title">Your Projects ({projects.length})</h2>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <input
-              type="text"
-              placeholder="Filter by skill..."
-              className="form-control"
-              value={skillFilter}
-              onChange={(e) => setSkillFilter(e.target.value)}
-              style={{ width: '200px' }}
-            />
-            <button 
-              onClick={() => setSkillFilter('')}
-              className="btn btn-secondary btn-small"
-            >
-              Clear
-            </button>
-          </div>
         </div>
 
         {projects.length === 0 ? (
-          <p>No projects found. {skillFilter ? 'Try a different skill filter or ' : ''}Add your first project above!</p>
+          <p>No projects yet. Add your first one above!</p>
         ) : (
-          <div className="grid grid-2">
-            {projects.map(project => (
-              <div key={project._id} className="card project-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+          projects.map(project => (
+            <div key={project._id} className="card" style={{ marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>
                   <h3>{project.title}</h3>
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <span className={`project-status status-${project.status}`}>
-                      {project.status}
-                    </span>
-                    {project.featured && (
-                      <span style={{ background: '#fbbf24', color: '#92400e', padding: '0.25rem 0.5rem', borderRadius: '12px', fontSize: '0.75rem' }}>
-                        Featured
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <p>{project.description}</p>
-
-                {project.skills && project.skills.length > 0 && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <strong>Skills:</strong> {project.skills.join(', ')}
-                  </div>
-                )}
-
-                {project.links && project.links.length > 0 && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <strong>Links:</strong>
-                    <ul style={{ margin: '0.5rem 0', paddingLeft: '1.5rem' }}>
-                      {project.links.map((link, index) => (
-                        <li key={index}>
-                          <a href={link.url} target="_blank" rel="noopener noreferrer">
-                            {link.label || link.type}
-                          </a>
-                        </li>
+                  <p>{project.description}</p>
+                  <p><strong>Status:</strong> {project.status}</p>
+                  <p><strong>Skills:</strong> {project.skills?.join(', ')}</p>
+                  {project.links && project.links.length > 0 && (
+                    <p>
+                      <strong>Links:</strong>{' '}
+                      {project.links.map((link, i) => (
+                        <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{ marginRight: '0.5rem' }}>
+                          {link.label || link.type}
+                        </a>
                       ))}
-                    </ul>
-                  </div>
-                )}
-
-                {(project.startDate || project.endDate) && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <strong>Timeline:</strong> {
-                      project.startDate ? new Date(project.startDate).toLocaleDateString() : 'Not specified'
-                    } - {
-                      project.endDate ? new Date(project.endDate).toLocaleDateString() : 'Ongoing'
-                    }
-                  </div>
-                )}
-
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <button 
-                    onClick={() => handleEdit(project)}
-                    className="btn btn-secondary btn-small"
-                  >
-                    Edit
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(project._id)}
-                    className="btn btn-danger btn-small"
-                  >
-                    Delete
-                  </button>
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <button onClick={() => handleEdit(project)} className="btn btn-secondary btn-small">Edit</button>
+                  <button onClick={() => handleDelete(project._id)} className="btn btn-danger btn-small">Delete</button>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))
         )}
       </div>
     </div>

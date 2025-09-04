@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -22,7 +22,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('/profile');
+      const response = await api.get('/profile');
       setProfile(response.data.profile);
       setFormData(response.data.profile);
       setIsEditing(false);
@@ -81,9 +81,9 @@ const Profile = () => {
     try {
       let response;
       if (profile) {
-        response = await axios.put('/profile', formData);
+        response = await api.put('/profile', formData);
       } else {
-        response = await axios.post('/profile', formData);
+        response = await api.post('/profile', formData);
       }
 
       setProfile(response.data.profile);
@@ -121,6 +121,7 @@ const Profile = () => {
 
         {isEditing ? (
           <form onSubmit={handleSubmit}>
+            {/* --- Profile Form Fields --- */}
             <div className="grid grid-2">
               <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -197,6 +198,7 @@ const Profile = () => {
               </div>
             </div>
 
+            {/* --- Education Section --- */}
             <div style={{ marginTop: '2rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <h3>Education</h3>

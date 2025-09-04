@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext'; // ✅ only this is needed
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -62,6 +62,7 @@ const Register = () => {
       )}
 
       <form onSubmit={handleSubmit}>
+        {/* Name */}
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -75,6 +76,7 @@ const Register = () => {
           />
         </div>
 
+        {/* Email */}
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -88,6 +90,7 @@ const Register = () => {
           />
         </div>
 
+        {/* Password */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -101,6 +104,7 @@ const Register = () => {
           />
         </div>
 
+        {/* Confirm Password */}
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
