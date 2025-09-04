@@ -1,6 +1,11 @@
 # Portfolio Management System
 
 A full-stack web application for managing professional portfolios, built with Node.js, Express.js, MongoDB, and React.js.
+**Live Hosted link**:https://process-veneu.vercel.app/
+**Backend link**:https://process-veneu.onrender.com/
+**Resume link**:https://drive.google.com/file/d/1SVtHM2ESvtO4oE-jILlKA1LBaXc_IpkL/view?usp=sharing
+
+
 
 # Sample Login Credentials
 After running the seed script:
@@ -8,7 +13,7 @@ After running the seed script:
 - **Password**: sujeet87097
 
 ## 🏗️ Architecture
-
+   
 ### Backend
 - **Framework**: Node.js + Express.js
 - **Database**: MongoDB Atlas with Mongoose ODM
@@ -389,23 +394,13 @@ curl -X POST http://localhost:5000/skills \
 
 ### Backend Deployment (Heroku/Render)
 
-1. **Heroku**:
-```bash
-# Install Heroku CLI
-heroku create your-portfolio-api
-heroku config:set MONGO_URI=your_mongodb_atlas_uri
-heroku config:set JWT_SECRET=your_jwt_secret
-heroku config:set NODE_ENV=production
-git subtree push --prefix backend heroku main
-```
-
-2. **Render**:
+1. **Render**:
    - Connect your GitHub repository
    - Set build command: `cd backend && npm install`
    - Set start command: `cd backend && npm start`
    - Add environment variables in Render dashboard
 
-### Frontend Deployment (Vercel/Netlify)
+### Frontend Deployment (Vercel)
 
 1. **Vercel**:
 ```bash
@@ -414,25 +409,20 @@ npm install -g vercel
 vercel
 ```
 
-2. **Netlify**:
-   - Connect GitHub repository
-   - Set build command: `cd frontend && npm run build`
-   - Set publish directory: `frontend/build`
-   - Add environment variable: `REACT_APP_API_URL=your_backend_url`
-
 ### Environment Variables for Production
 
 **Backend**:
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/portfolio?retryWrites=true&w=majority
-JWT_SECRET=your_super_secure_jwt_secret_key_for_production
-NODE_ENV=production
+MONGO_URI=mongodb+srv://sujeetkrgupta9122_db_user:xukgg7f05En9fhRx@cluster0.tpwtirr.mongodb.net/predusk_db?retryWrites=true&w=majority&appName=Cluster0
+JWT_SECRET=sujeetkrgupta9122
+NODE_ENV=development
+
 ```
 
 **Frontend**:
 ```env
-REACT_APP_API_URL=https://your-backend-url.com
+REACT_APP_API_URL=https://process-veneu.onrender.com
 ```
 
 ## 📋 Features
