@@ -106,7 +106,7 @@ Link
 
 ### Prerequisites
 - Node.js (v14 or higher)
-- npm or yarn
+- npm 
 - MongoDB Atlas account
 
 ### Local Development Setup
@@ -126,9 +126,10 @@ npm install
 Create `.env` file in the backend directory:
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/portfolio?retryWrites=true&w=majority
-JWT_SECRET=your_jwt_secret_key_here_make_it_long_and_secure
+MONGO_URI=mongodb+srv://sujeetkrgupta9122_db_user:xukgg7f05En9fhRx@cluster0.tpwtirr.mongodb.net/predusk_db?retryWrites=true&w=majority&appName=Cluster0
+JWT_SECRET=sujeetkrgupta9122
 NODE_ENV=development
+
 ```
 
 #### 3. Frontend Setup
@@ -475,7 +476,7 @@ npm run seed       # Seed database with sample data
 npm start          # Start development server
 npm run build      # Build for production
 npm test           # Run tests
-npm run eject      # Eject from Create React App
+
 ```
 
 ## 🤝 Contributing
