@@ -1,0 +1,717 @@
+{
+	"info": {
+		"_postman_id": "27b9a6c7-2a15-4b55-aa39-cb298941d13f",
+		"name": "Predusk_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38009207"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"john doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/auth/register",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"john@example.com\",\r\n  \"password\": \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/auth/login",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login_user_check",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/auth/me",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/health",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post_profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"bio\": \"Full-stack developer\",\r\n  \"location\": \"San Francisco, CA\",\r\n  \"education\": [\r\n    {\r\n      \"institution\": \"Stanford University\",\r\n      \"degree\": \"Bachelor of Science\",\r\n      \"field\": \"Computer Science\",\r\n      \"startDate\": \"2015-09-01\",\r\n      \"endDate\": \"2019-06-01\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/profile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Profile",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"bio\": \"Full-stack developer\",\r\n  \"location\": \"San Francisco, CA\",\r\n  \"education\": [\r\n    {\r\n      \"institution\": \"Stanford University\",\r\n      \"degree\": \"Bachelor of Technology\",\r\n      \"field\": \"Computer Science\",\r\n      \"startDate\": \"2015-09-01\",\r\n      \"endDate\": \"2019-06-01\"\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/profile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_logged_user_profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"bio\": \"Full-stack developer\",\r\n  \"location\": \"San Francisco, CA\",\r\n  \"education\": [\r\n    {\r\n      \"institution\": \"Stanford University\",\r\n      \"degree\": \"Bachelor of Technology\",\r\n      \"field\": \"Computer Science\",\r\n      \"startDate\": \"2015-09-01\",\r\n      \"endDate\": \"2019-06-01\"\r\n    }\r\n  ]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/profile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post_skills",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Python\",\r\n  \"proficiency\": 9,\r\n  \"category\": \"Programming\",\r\n  \"yearsOfExperience\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/skills",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_skills",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Python\",\r\n  \"proficiency\": 9,\r\n  \"category\": \"Programming\",\r\n  \"yearsOfExperience\": 3\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/skills",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_top_skills",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Python\",\r\n  \"proficiency\": 9,\r\n  \"category\": \"Programming\",\r\n  \"yearsOfExperience\": 3\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/skills/top",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"skills",
+						"top"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_skills_by_id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Python\",\r\n  \"proficiency\": 8,\r\n  \"category\": \"Programming\",\r\n  \"yearsOfExperience\": 3\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/skills/68b932b6e93a7d2093302f9c",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"skills",
+						"68b932b6e93a7d2093302f9c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_skills_by_id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"java\",\r\n  \"proficiency\": 9,\r\n  \"category\": \"Programming\",\r\n  \"yearsOfExperience\": 2\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/skills/68b932b6e93a7d2093302f9c",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"skills",
+						"68b932b6e93a7d2093302f9c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post_projects",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Hybrid RAG pipeline\",\r\n  \"description\": \"GenaI rag pipeline that gives perfect answer after vector embeddings\",\r\n  \"skills\": [\"Langchain\", \"LangGraph\", \"AstaDB\"],\r\n  \"links\": [\r\n    {\r\n      \"type\": \"github\",\r\n      \"url\": \"https://github.com/user/project\",\r\n      \"label\": \"Source Code\"\r\n    }\r\n  ],\r\n  \"status\": \"completed\",\r\n  \"featured\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/projects",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_All_projects",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Hybrid RAG pipeline\",\r\n  \"description\": \"GenaI rag pipeline that gives perfect answer after vector embeddings\",\r\n  \"skills\": [\"Langchain\", \"LangGraph\", \"AstaDB\"],\r\n  \"links\": [\r\n    {\r\n      \"type\": \"github\",\r\n      \"url\": \"https://github.com/user/project\",\r\n      \"label\": \"Source Code\"\r\n    }\r\n  ],\r\n  \"status\": \"completed\",\r\n  \"featured\": true\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/projects",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search_projects_by_skills",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Hybrid RAG pipeline\",\r\n  \"description\": \"GenaI rag pipeline that gives perfect answer after vector embeddings\",\r\n  \"skills\": [\"Langchain\", \"LangGraph\", \"AstaDB\"],\r\n  \"links\": [\r\n    {\r\n      \"type\": \"github\",\r\n      \"url\": \"https://github.com/user/project\",\r\n      \"label\": \"Source Code\"\r\n    }\r\n  ],\r\n  \"status\": \"completed\",\r\n  \"featured\": true\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/projects?skill=javascript",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"projects"
+					],
+					"query": [
+						{
+							"key": "skill",
+							"value": "javascript"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_projects_by_id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Hybrid RAG pipeline\",\r\n  \"description\": \"GenaI rag pipeline that gives perfect answer after vector embeddings\",\r\n  \"skills\": [\"Langchain\", \"LangGraph\", \"AstaDB\"],\r\n  \"links\": [\r\n    {\r\n      \"type\": \"github\",\r\n      \"url\": \"https://github.com/user/project\",\r\n      \"label\": \"Source Code\"\r\n    }\r\n  ],\r\n  \"status\": \"completed\",\r\n  \"featured\": true\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/projects/68b93915e93a7d2093302ff2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"projects",
+						"68b93915e93a7d2093302ff2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_projects_by_id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:5000/projects/68b93915e93a7d2093302ff2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"projects",
+						"68b93915e93a7d2093302ff2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post_experineces",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    \r\n{\r\n  \"company\": \"Google\",\r\n  \"position\": \"Senior  Software Developer\",\r\n  \"description\": \"Led development of web applications\",\r\n  \"startDate\": \"2023-03-01\",\r\n  \"current\": true,\r\n  \"location\": \"Banglore, IN\",\r\n  \"employmentType\": \"full-time\",\r\n  \"skills\": [\"JavaScript\", \"React\", \"Node.js\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/work",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"work"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_all_work",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    \r\n{\r\n  \"company\": \"Google\",\r\n  \"position\": \"Senior  Software Developer\",\r\n  \"description\": \"Led development of web applications\",\r\n  \"startDate\": \"2023-03-01\",\r\n  \"current\": true,\r\n  \"location\": \"Banglore, IN\",\r\n  \"employmentType\": \"full-time\",\r\n  \"skills\": [\"JavaScript\", \"React\", \"Node.js\"]\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/work",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"work"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_work_by_id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"company\": \"Amazon\",\r\n  \"position\": \"Senior  Software Developer\",\r\n  \"description\": \"development of web applications\",\r\n  \"startDate\": \"2023-03-01\",\r\n  \"current\": true,\r\n  \"location\": \"Banglore, IN\",\r\n  \"employmentType\": \"full-time\",\r\n  \"skills\": [\"JavaScript\", \"React\", \"Node.js\"]\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/work/68b93f51e93a7d2093303006",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"work",
+						"68b93f51e93a7d2093303006"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI5MmM5Y2U5M2E3ZDIwOTMzMDJmODMiLCJpYXQiOjE3NTY5NjYwNDUsImV4cCI6MTc1NzU3MDg0NX0.b6IWvUZRPOJUH9jbF1klfdzI0wB9qKJTkZEluig2GVM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    \r\n{\r\n  \"company\": \"Google\",\r\n  \"position\": \"Senior  Software Developer\",\r\n  \"description\": \"Led development of web applications\",\r\n  \"startDate\": \"2023-03-01\",\r\n  \"current\": true,\r\n  \"location\": \"Banglore, IN\",\r\n  \"employmentType\": \"full-time\",\r\n  \"skills\": [\"JavaScript\", \"React\", \"Node.js\"]\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/work/68b93f51e93a7d2093303006",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"work",
+						"68b93f51e93a7d2093303006"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
