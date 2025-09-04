@@ -1,9 +1,9 @@
 # Portfolio Management System
 
 A full-stack web application for managing professional portfolios, built with Node.js, Express.js, MongoDB, and React.js.
-**Live Hosted link**:https://process-veneu.vercel.app/
-**Backend link**:https://process-veneu.onrender.com/
-**Resume link**:https://drive.google.com/file/d/1SVtHM2ESvtO4oE-jILlKA1LBaXc_IpkL/view?usp=sharing
+- **Live Hosted link**:https://process-veneu.vercel.app/
+- **Backend link**:https://process-veneu.onrender.com/
+- **Resume link**:https://drive.google.com/file/d/1SVtHM2ESvtO4oE-jILlKA1LBaXc_IpkL/view?usp=sharing
 
 
 
