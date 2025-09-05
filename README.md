@@ -4,6 +4,7 @@ A full-stack web application for managing professional portfolios, built with No
 - **Live Hosted link**:https://process-veneu.vercel.app/
 - **Backend link**:https://process-veneu.onrender.com/
 - **Resume link**:https://drive.google.com/file/d/1SVtHM2ESvtO4oE-jILlKA1LBaXc_IpkL/view?usp=sharing
+- **Predusk API (Postman Collection)**: [Download here](./Predusk_API.postman_collection.json)
 
 
 
