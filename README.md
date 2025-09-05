@@ -1,11 +1,14 @@
 # Portfolio Management System
 
+
 A full-stack web application for managing professional portfolios, built with Node.js, Express.js, MongoDB, and React.js.
+- Log In with **Email** sujeetkrgupta9122@gmail.com
+  -**Password**: sujeet87097
 - **Live Hosted link**:https://process-veneu.vercel.app/
 - **Backend link**:https://process-veneu.onrender.com/
 - **Resume link**:https://drive.google.com/file/d/1SVtHM2ESvtO4oE-jILlKA1LBaXc_IpkL/view?usp=sharing
 - **Predusk API (Postman Collection)**: [Download here](./Predusk_API.postman_collection.json)
-
+-**PostMan API tested screenshots**:https://drive.google.com/file/d/1Q7iZINYVDHqAPRSfJF48g-VRC4p5-u4S/view?usp=sharing
 
 
 # Sample Login Credentials
@@ -427,9 +430,9 @@ NODE_ENV=development
 REACT_APP_API_URL=https://process-veneu.onrender.com
 ```
 
-## 📋 Features
+## Features
 
-### ✅ Implemented Features
+### Implemented Features
 - User registration and authentication with JWT
 - Profile management with education history
 - Skills tracking with proficiency levels
@@ -442,7 +445,7 @@ REACT_APP_API_URL=https://process-veneu.onrender.com
 - Error handling and validation
 - Database seeding with sample data
 
-### 🔒 Security Features
+### Security Features
 - Password hashing with bcrypt
 - JWT token authentication
 - Rate limiting
@@ -450,7 +453,7 @@ REACT_APP_API_URL=https://process-veneu.onrender.com
 - Helmet security headers
 - Input validation and sanitization
 
-## ⚠️ Known Limitations
+##  Known Limitations
 
 1. **File Uploads**: No image upload functionality for profile pictures or project images
 2. **Email Verification**: User registration doesn't include email verification
@@ -463,7 +466,26 @@ REACT_APP_API_URL=https://process-veneu.onrender.com
 9. **Analytics**: No usage analytics or dashboard insights
 10. **Multi-language**: No internationalization support
 
-## 🛠️ Development Scripts
+
+##  Trade-offs Made
+**Fast development vs Long-term maintenance** - Chose speed over scalability
+**Simple tech stack vs Advanced features** - Easy to build but limited capabilities
+**Free hosting vs Performance** - Cheap but slower response times
+**Custom CSS vs UI framework** - More control but more work
+**MongoDB flexibility vs Data consistency** - Easy JSON but loose validation
+**Basic auth vs Enterprise security**- Quick setup but security gaps
+**Single codebase vs Microservices** - Simpler but harder to scale
+
+## What's Next
+
+**Fix JWT security** - Store tokens safely with httpOnly cookies
+**Add file uploads** - Profile pictures and project screenshots
+**Email verification** - Secure user registration process
+**Better search**  Add filters by skills, location, experience
+**Performance boost** - Add caching and database optimization
+**Mobile improvements** - Better responsive design and PWA features
+**Real-time updates** - Live editing and notifications
+## Development Scripts
 
 ### Backend
 ```bash
@@ -479,27 +501,3 @@ npm run build      # Build for production
 npm test           # Run tests
 
 ```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-If you encounter any issues:
-
-1. Check that MongoDB Atlas is properly configured
-2. Ensure all environment variables are set correctly
-3. Verify that both backend and frontend servers are running
-4. Check browser console for any JavaScript errors
-5. Review server logs for API errors
-
-For additional help, please open an issue in the repository.
