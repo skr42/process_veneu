@@ -8,7 +8,7 @@ A full-stack web application for managing professional portfolios, built with No
 - **Backend link**:https://process-veneu.onrender.com/
 - **Resume link**:https://drive.google.com/file/d/1SVtHM2ESvtO4oE-jILlKA1LBaXc_IpkL/view?usp=sharing
 - **Predusk API (Postman Collection)**: [Download here](./Predusk_API.postman_collection.json)
--**PostMan API tested screenshots**:https://drive.google.com/file/d/1Q7iZINYVDHqAPRSfJF48g-VRC4p5-u4S/view?usp=sharing
+- **PostMan API tested screenshots**:https://drive.google.com/file/d/1Q7iZINYVDHqAPRSfJF48g-VRC4p5-u4S/view?usp=sharing
 
 
 # Sample Login Credentials
